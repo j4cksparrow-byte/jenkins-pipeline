@@ -12,6 +12,16 @@ pipeline {
                 echo 'Stage 2: Unit and Integration Tests - Running unit tests to ensure individual functions work as expected, and integration tests to verify the interactions between different components.'
                 echo 'Tools: JUnit (Unit Tests), Selenium (Integration Tests)'
             }
+            post {
+                always {
+                    emailext(
+                        to: 's223231719@deakin.edu.au',
+                        subject: "Unit and Integration Tests: currentBuild.currentResult",
+                        body: "The Unit and Integration Tests stage has ${currentBuild.currentResult}.",
+                        attachLog: true
+                    )
+                }
+            }
         }
         stage('Code Analysis') {
             steps {
@@ -23,6 +33,16 @@ pipeline {
             steps {
                 echo 'Stage 4: Security Scan - Performing a security scan on the code to identify potential vulnerabilities using OWASP ZAP.'
                 echo 'Tool: OWASP ZAP'
+            }
+            post {
+                always {
+                    emailext(
+                        to: 's223231719@deakin.edu.au',
+                        subject: "Security Scan: ${currentBuild.currentResult}",
+                        body: "The Security Scan stage has ${currentBuild.currentResult}.",
+                        attachLog: true
+                    )
+                }
             }
         }
         stage('Deploy to Staging') {
