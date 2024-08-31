@@ -1,43 +1,46 @@
 pipeline {
     agent any
-
-    environment{
-        DIRECTORY_PATH = 'D:\\Deakin\\T2\\PP\\pipeline'
-        TESTING_ENVIRONMENT = 'New_testing'
-        PRODUCTION_ENVIRONMENT = 'Ismail_sulaiman'
-    }
-    stages{
+    stages {
         stage('Build') {
-            steps{
-                echo "Fetch the source code from the directory path specified by the environment variable : $DIRECTORY_PATH "
-                echo "Compile the code and generate any necessary artifacts"
-            }
-        }
-        stage('Test') {
             steps {
-                echo "Unit Tests"
-                echo "Integration tests"
+                echo 'Stage 1: Build - Building the code using Maven to compile and package the code into a deployable artifact.'
+                echo 'Tool: Maven'
             }
         }
-        stage('Code Quality Check'){
-            steps{
-                echo "check the quality of the code"
-            }
-
-        }
-        stage('Deploy'){
-            steps{
-                echo "deploy the application to a testing environment specified by the environment variable: $TESTING_ENVIRONMENT "
+        stage('Unit and Integration Tests') {
+            steps {
+                echo 'Stage 2: Unit and Integration Tests - Running unit tests to ensure individual functions work as expected, and integration tests to verify the interactions between different components.'
+                echo 'Tools: JUnit (Unit Tests), Selenium (Integration Tests)'
             }
         }
-        stage('Approval'){
-            steps{
-                sleep 10
+        stage('Code Analysis') {
+            steps {
+                echo 'Stage 3: Code Analysis - Analyzing the code to ensure it adheres to industry standards and best practices using SonarQube.'
+                echo 'Tool: SonarQube'
             }
         }
-        stage('Deploy to Production'){
-            steps{
-                echo "Deploy the code to the production environment using the environment variable: $PRODUCTION_ENVIRONMENT"
+        stage('Security Scan') {
+            steps {
+                echo 'Stage 4: Security Scan - Performing a security scan on the code to identify potential vulnerabilities using OWASP ZAP.'
+                echo 'Tool: OWASP ZAP'
+            }
+        }
+        stage('Deploy to Staging') {
+            steps {
+                echo 'Stage 5: Deploy to Staging - Deploying the application to a staging environment on an AWS EC2 instance for further testing.'
+                echo 'Environment: AWS EC2 instance'
+            }
+        }
+        stage('Integration Tests on Staging') {
+            steps {
+                echo 'Stage 6: Integration Tests on Staging - Running integration tests on the staging environment to ensure the application works as expected in a production-like setup.'
+                echo 'Tool: Selenium (Integration Tests on Staging)'
+            }
+        }
+        stage('Deploy to Production') {
+            steps {
+                echo 'Stage 7: Deploy to Production - Deploying the application to a production environment on an AWS EC2 instance.'
+                echo 'Environment: AWS EC2 instance'
             }
         }
     }
