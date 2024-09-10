@@ -18,7 +18,7 @@ pipeline {
                         to: 's223231719@deakin.edu.au',
                         subject: "Unit and Integration Tests: ${currentBuild.currentResult}",
                         body: "The Unit and Integration Tests stage has ${currentBuild.currentResult}.",
-                        attachLog: true
+                        
                     )
                 }
             }
@@ -40,7 +40,7 @@ pipeline {
                         to: 's223231719@deakin.edu.au',
                         subject: "Security Scan: ${currentBuild.currentResult}",
                         body: "The Security Scan stage has ${currentBuild.currentResult}.",
-                        attachLog: true
+                       
                     )
                 }
             }
